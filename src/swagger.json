@@ -1,0 +1,56 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Análise de Áudio",
+    "version": "1.0.0",
+    "description": "API para análise de áudios para verificar se foram gravados por humanos ou gerados por IA."
+  },
+  "paths": {
+    "/api/audio/analyze": {
+      "post": {
+        "summary": "Analisa um áudio enviado para verificar se é gravados por humano ou gerado por IA",
+        "tags": ["Áudio"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta com o resultado da análise",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "humanRecordedAudio": {
+                      "type": "boolean",
+                      "description": "Indica se o áudio é gravados por humano ou não"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Nenhum arquivo enviado"
+          },
+          "500": {
+            "description": "Erro ao analisar o áudio"
+          }
+        }
+      }
+    }
+  }
+}
