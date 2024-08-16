@@ -1,22 +1,20 @@
-import * as tf from '@tensorflow/tfjs-node';
-import fs from 'fs';
-import path from 'path';
-import WavDecoder from 'wav-decoder';
+import * as tf from "@tensorflow/tfjs-node";
+import fs from "fs";
+import WavDecoder from "wav-decoder";
 
 const dirname = new URL(import.meta.url).pathname;
 
-class AudioService{
-  constructor(){
-    this.TARGET_SAMPLE_SIZE = 16000
-
+class AudioService {
+  constructor() {
+    this.TARGET_SAMPLE_SIZE = 16000;
   }
 
   async loadModel() {
-    const modelPath = path.resolve(dirname, '..', '..', '..', 'audio_classifier_model/model.json');
-    const fileUrl = `file://${modelPath}`;
-    return await tf.loadLayersModel(fileUrl);
+    const modelUrl =
+      "https://raw.githubusercontent.com/valdir-alves3000/audio-analysis-api-nodejs/main/audio_classifier_model/model.json";
+    return await tf.loadLayersModel(modelUrl);
   }
- async preprocessAudio(filePath) {
+  async preprocessAudio(filePath) {
     const buffer = fs.readFileSync(filePath);
     const audioData = await WavDecoder.decode(buffer);
 
